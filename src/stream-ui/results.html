@@ -1,0 +1,150 @@
+<html>
+<head>
+    <title>Results - SwimResults Stream View</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <script src="js/jquery-3.7.1.min.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/helper.js"></script>
+
+    <script>
+
+
+
+        const MEETING = "IESC22";
+        const vc = "visible"
+
+        function receiveEvent(data) {
+            console.log(data);
+            $('#test').html(data.style.aliases[0]);
+        }
+
+        function receiveStarts(data) {
+            console.log(data);
+            if (data.length > 0) {
+
+                Api.getEventByMeetingAndNumber(MEETING, data[0].event, receiveEvent);
+
+                for (const start of data) {
+                    constructStart(start);
+                }
+            }
+        }
+
+        function constructStart(start) {
+            $('#lane' + start.lane + '_athlete').html(start.athlete_name);
+            $('#lane' + start.lane + '_year').html(start.athlete_year);
+            $('#lane' + start.lane + '_team').html(start.athlete_team_name);
+            $('#lane' + start.lane).addClass(vc)
+
+            setTimeout(() => {
+                hideLane(start.lane);
+            }, 3000)
+        }
+
+        function hideLane(n) {
+            $('#lane' + n).removeClass(vc);
+        }
+
+        function hideAll() {
+            for (let i = 0; i < 10; i++) {
+                $('#lane' + i).removeClass(vc);
+            }
+        }
+
+        Api.getCurrentStarts(MEETING, receiveStarts);
+    </script>
+</head>
+
+<body>
+
+    <h1>Results</h1>
+    <p id="test"></p>
+
+    <div id="startContainer">
+
+        <div class="lane" id="lane0">
+            <span class="number" id="lane0_number">1</span>
+            <span class="athlete" id="lane0_athlete">Markus Meyer</span>
+            <span class="year" id="lane0_year">2004</span>
+            <span class="team" id="lane0_team">SV 1650 Breitbergen</span>
+            <span class="time" id="lane0_time">03:39,49</span>
+        </div>
+
+        <div class="lane" id="lane1">
+            <span class="number" id="lane1_number">1</span>
+            <span class="athlete" id="lane1_athlete">Markus Meyer</span>
+            <span class="year" id="lane1_year">2004</span>
+            <span class="team" id="lane1_team">SV 1650 Breitbergen</span>
+            <span class="time" id="lane1_time">03:39,49</span>
+        </div>
+
+        <div class="lane" id="lane2">
+            <span class="number" id="lane2_number">1</span>
+            <span class="athlete" id="lane2_athlete">Markus Meyer</span>
+            <span class="year" id="lane2_year">2004</span>
+            <span class="team" id="lane2_team">SV 1650 Breitbergen</span>
+            <span class="time" id="lane2_time">03:39,49</span>
+        </div>
+
+        <div class="lane" id="lane3">
+            <span class="number" id="lane3_number">1</span>
+            <span class="athlete" id="lane3_athlete">Markus Meyer</span>
+            <span class="year" id="lane3_year">2004</span>
+            <span class="team" id="lane3_team">SV 1650 Breitbergen</span>
+            <span class="time" id="lane3_time">03:39,49</span>
+        </div>
+
+        <div class="lane" id="lane4">
+            <span class="number" id="lane4_number">1</span>
+            <span class="athlete" id="lane4_athlete">Markus Meyer</span>
+            <span class="year" id="lane4_year">2004</span>
+            <span class="team" id="lane4_team">SV 1650 Breitbergen</span>
+            <span class="time" id="lane4_time">03:39,49</span>
+        </div>
+
+        <div class="lane" id="lane5">
+            <span class="number" id="lane5_number">1</span>
+            <span class="athlete" id="lane5_athlete">Markus Meyer</span>
+            <span class="year" id="lane5_year">2004</span>
+            <span class="team" id="lane5_team">SV 1650 Breitbergen</span>
+            <span class="time" id="lane5_time">03:39,49</span>
+        </div>
+
+        <div class="lane" id="lane6">
+            <span class="number" id="lane6_number">1</span>
+            <span class="athlete" id="lane6_athlete">Markus Meyer</span>
+            <span class="year" id="lane6_year">2004</span>
+            <span class="team" id="lane6_team">SV 1650 Breitbergen</span>
+            <span class="time" id="lane6_time">03:39,49</span>
+        </div>
+
+        <div class="lane" id="lane7">
+            <span class="number" id="lane7_number">1</span>
+            <span class="athlete" id="lane7_athlete">Markus Meyer</span>
+            <span class="year" id="lane7_year">2004</span>
+            <span class="team" id="lane7_team">SV 1650 Breitbergen</span>
+            <span class="time" id="lane7_time">03:39,49</span>
+        </div>
+
+        <div class="lane" id="lane8">
+            <span class="number" id="lane8_number">1</span>
+            <span class="athlete" id="lane8_athlete">Markus Meyer</span>
+            <span class="year" id="lane8_year">2004</span>
+            <span class="team" id="lane8_team">SV 1650 Breitbergen</span>
+            <span class="time" id="lane8_time">03:39,49</span>
+        </div>
+
+        <div class="lane" id="lane9">
+            <span class="number" id="lane9_number">1</span>
+            <span class="athlete" id="lane9_athlete">Markus Meyer</span>
+            <span class="year" id="lane9_year">2004</span>
+            <span class="team" id="lane9_team">SV 1650 Breitbergen</span>
+            <span class="time" id="lane9_time">03:39,49</span>
+        </div>
+
+    </div>
+
+</body>
+</html>

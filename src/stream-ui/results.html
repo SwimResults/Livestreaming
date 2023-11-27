@@ -1,4 +1,4 @@
-<html>
+<html lang="en">
 <head>
     <title>Results - SwimResults Stream View</title>
 
@@ -7,13 +7,47 @@
     <script src="js/jquery-3.7.1.min.js"></script>
     <script src="js/api.js"></script>
     <script src="js/helper.js"></script>
+    <script src="js/models.js"></script>
 
     <script>
 
+        const urlParams = new URLSearchParams(window.location.search);
+        let refreshTime = urlParams.get('refresh_time');
+        let meeting = urlParams.get('meeting');
+        const skipConfig = urlParams.get('skip_config');
+        let firstLane = urlParams.get('first_lane');
+        let numOfLanes = urlParams.get('lanes');
+
+        if (!refreshTime) refreshTime = 1000;
+        if (!meeting) meeting = "IESC22";
+        if (!firstLane) firstLane = 1;
+        if (!numOfLanes) numOfLanes = 4;
 
 
-        const MEETING = "IESC22";
-        const vc = "visible"
+        const MEETING = meeting;
+        const vc = "laneVisible"
+        const hc = "laneHiding"
+
+        let starts = new Map();
+        let heat = {
+            _id: "0",
+            meeting: MEETING,
+            event: 0,
+            number: 0
+        };
+
+        // called onLoad
+        function setup() {
+            showAll();
+            let setupTime = skipConfig ? 3000 : 30000;
+            setTimeout(() => {
+                $('#config').addClass("hidden");
+                hideAll();
+                setInterval(() => {
+                    tick();
+                }, refreshTime);
+            }, setupTime);
+        }
 
         function receiveEvent(data) {
             console.log(data);
@@ -24,10 +58,23 @@
             console.log(data);
             if (data.length > 0) {
 
+                // if it is a new heat, clear all starts;
+
+                if (heat._id !== data[0].heat._id) {
+                    heat = data[0].heat;
+                    starts = new Map();
+                    console.log("new heat event: " + heat.event + "; heat: " + heat.number);
+                }
+
                 Api.getEventByMeetingAndNumber(MEETING, data[0].event, receiveEvent);
 
                 for (const start of data) {
-                    constructStart(start);
+                    const startImpl = new Start(start);
+
+                    if (!starts.has(startImpl._id) || starts.get(startImpl._id).updated_at.getTime() !== startImpl.updated_at.getTime()) {
+                        starts.set(startImpl._id, startImpl);
+                        constructStart(startImpl);
+                    }
                 }
             }
         }
@@ -36,31 +83,64 @@
             $('#lane' + start.lane + '_athlete').html(start.athlete_name);
             $('#lane' + start.lane + '_year').html(start.athlete_year);
             $('#lane' + start.lane + '_team').html(start.athlete_team_name);
-            $('#lane' + start.lane).addClass(vc)
+            $('#lane' + start.lane + '_time').html(Helper.durationToSwimTimeString(start.getMostRecentResult().time));
+
+            showLane(start.lane);
 
             setTimeout(() => {
                 hideLane(start.lane);
-            }, 3000)
+            }, 5000)
+        }
+
+
+        function showLane(n) {
+            const lane = $('#lane' + n)
+            lane.addClass(hc);
+            setTimeout(() => {
+                lane.addClass(vc);
+                lane.removeClass(hc);
+            }, 500)
         }
 
         function hideLane(n) {
-            $('#lane' + n).removeClass(vc);
+            const lane = $('#lane' + n)
+            lane.removeClass(vc);
+            lane.addClass(hc);
+            setTimeout(() => {
+                lane.removeClass(hc);
+            }, 500)
         }
 
-        function hideAll() {
-            for (let i = 0; i < 10; i++) {
-                $('#lane' + i).removeClass(vc);
+        function showAll() {
+            for (let i = firstLane; i < numOfLanes + firstLane; i++) {
+                showLane(i);
             }
         }
 
-        Api.getCurrentStarts(MEETING, receiveStarts);
+        function hideAll() {
+            for (let i = firstLane; i < numOfLanes + firstLane; i++) {
+                hideLane(i);
+            }
+        }
+
+        function tick() {
+            console.log("tick");
+            Api.getCurrentStarts(MEETING, receiveStarts);
+        }
+
     </script>
 </head>
 
-<body>
+<body onload="setup()">
 
-    <h1>Results</h1>
-    <p id="test"></p>
+    <div id="config">
+        <h1>Results UI</h1>
+        <p>
+            This text and the shown lanes will be hidden after 30 seconds.<br>
+            You can use this time to adjust the positioning in your streaming application.<br>
+            If you want to skip this step, use query param skip_config=1.
+        </p>
+    </div>
 
     <div id="startContainer">
 

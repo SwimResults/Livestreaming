@@ -54,9 +54,10 @@
             if (data.length > 0) {
 
                 // if it is a new heat, clear all starts;
+                const newHeat = data[0].heat;
 
-                if (heat._id !== data[0].heat._id) {
-                    heat = data[0].heat;
+                if (heat._id !== newHeat._id) {
+                    heat = newHeat.heat;
                     starts = new Map();
                     console.log("new heat event: " + heat.event + "; heat: " + heat.number);
                 } else if (newHeat.finished_at.getTime() > heat.finished_at.getTime()) {

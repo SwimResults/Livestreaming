@@ -60,7 +60,7 @@
                     starts = new Map();
                     console.log("new heat event: " + heat.event + "; heat: " + heat.number);
                     interval = setInterval(clockTick, 10);
-                } else if (newHeat.finished_at.getTime() > heat.finished_at.getTime()) {
+                } else if (newHeat.finished_at.getTime() !== heat.finished_at.getTime()) {
                     console.log("heat finished");
                     heat = newHeat;
                     milliseconds = 0;
@@ -71,7 +71,7 @@
 
         function writeTime() {
             const now = new Date();
-            let timePassed = now - heat.start_at.getTime();
+            let timePassed = now - heat.start_at.getTime() - (settings.clockOffset * 1000);
             const time = new Date(timePassed);
             const min = time.getMinutes();
             const sec = time.getSeconds();

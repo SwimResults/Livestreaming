@@ -14,6 +14,7 @@ class Helper {
         let meeting = urlParams.get('meeting');
         const skipConfig = urlParams.get('skip_config');
         const background = urlParams.get('background');
+        const clockOffset = urlParams.get('clock_offset');
         let firstLane = urlParams.get('first_lane');
         let numOfLanes = urlParams.get('lanes');
 
@@ -28,7 +29,8 @@ class Helper {
             skipConfig: skipConfig,
             firstLane: firstLane,
             numOfLanes: numOfLanes,
-            background: background
+            background: background,
+            clockOffset: Number(clockOffset)
         };
     }
 }

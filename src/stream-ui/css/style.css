@@ -1,9 +1,9 @@
 :root {
-    --lane-number-width: 64px;
-    --lane-athlete-width: 400px;
-    --lane-year-width: 100px;
-    --lane-team-width: 500px;
-    --lane-time-width: 220px;
+    --lane-number-width: 46px;
+    --lane-athlete-width: 320px;
+    --lane-year-width: 80px;
+    --lane-team-width: 410px;
+    --lane-time-width: 130px;
     --lane-width: calc(
             var(--lane-number-width) +
             var(--lane-athlete-width) +
@@ -62,7 +62,7 @@ body.background {
 .lane {
     width: var(--lane-width);
     color: #e4e4ff;
-    margin: 10px 0;
+    margin: 6px 0;
     white-space: nowrap;
     font-size: 0;
     height: 58px;

@@ -2,21 +2,21 @@
     display: block;
     background-color: black;
     color: white;
-    font-family: "Georama Regular", sans-serif;
+    font-family: "Georama Medium", sans-serif;
     font-size: 0;
     border-top-left-radius: 12px;
     border-bottom-left-radius: 12px;
-    padding: 8px 14px;
+    padding: 8px 24px;
     margin-left: 30px;
 }
 
 .min-sec {
-    font-size: 32px;
+    font-size: 36px;
     display: inline-block;
     margin-right: 4px;
 }
 
 .mil {
-    font-family: "Georama Light", sans-serif;
-    font-size: 18px;
+    font-family: "Georama Regular", sans-serif;
+    font-size: 28px;
 }

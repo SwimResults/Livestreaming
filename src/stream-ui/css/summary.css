@@ -20,17 +20,17 @@
 }
 
 .summary-header {
-    width: calc(100% - 52px);
+    width: calc(100% - 76px);
     background-color: black;
     color: white;
-    padding: 16px 26px;
-    font-size: 20px;
-    border-top-left-radius: 30px;
-    border-top-right-radius: 30px;
+    padding: 26px 38px;
+    font-size: 30px;
+    border-top-left-radius: 60px;
+    border-top-right-radius: 60px;
 }
 
 .summary-header .distance {
-    font-size: 26px;
+    font-size: 42px;
 }
 
 .summary.visible {
@@ -41,14 +41,15 @@
     background-color: black;
     padding: 6px 16px;
     color: white;
+    font-size: 24px;
 }
 
 .summary-footer-left {
     float: left;
-    border-bottom-left-radius: 18px;
+    border-bottom-left-radius: 24px;
 }
 
 .summary-footer-right {
     float: right;
-    border-bottom-right-radius: 18px;
+    border-bottom-right-radius: 24px;
 }

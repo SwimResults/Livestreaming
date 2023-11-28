@@ -1,6 +1,6 @@
 .lane {
     transition: 0.4s;
-    margin-left: -800px;
+    margin-left: calc(var(--lane-width) * -1);
     display: none;
 }
 
@@ -10,6 +10,6 @@
 }
 
 .laneHiding {
-    margin-left: -800px;
+    margin-left: calc(var(--lane-width) * -1);
     display: block;
 }

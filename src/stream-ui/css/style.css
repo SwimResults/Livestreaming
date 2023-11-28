@@ -1,16 +1,16 @@
 :root {
-    --lane-number-width: 32px;
-    --lane-athlete-width: 200px;
-    --lane-year-width: 80px;
-    --lane-team-width: 250px;
-    --lane-time-width: 110px;
+    --lane-number-width: 64px;
+    --lane-athlete-width: 400px;
+    --lane-year-width: 100px;
+    --lane-team-width: 500px;
+    --lane-time-width: 220px;
     --lane-width: calc(
             var(--lane-number-width) +
             var(--lane-athlete-width) +
             var(--lane-year-width) +
             var(--lane-team-width) +
             var(--lane-time-width) +
-            10 * 4px
+            10 * 16px
     );
     --contrast-color: #1c588ccc;
 }
@@ -47,7 +47,7 @@ body, h1 {
 }
 
 body {
-    font-family: "Georama Light", sans-serif;
+    font-family: "Georama Regular", sans-serif;
     font-weight: 500;
 }
 
@@ -65,23 +65,23 @@ body.background {
     margin: 10px 0;
     white-space: nowrap;
     font-size: 0;
-    height: 34px;
+    height: 58px;
 }
 
 .lane span {
-    padding: 4px;
+    padding: 4px 16px;
     display: inline-block;
     border-right: 0 solid var(--contrast-color);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    font-size: 20px;
+    font-size: 30px;
 }
 
 .lane .number,
 .lane .time {
     background-color: var(--contrast-color);
-    font-family: "Georama Regular", sans-serif;
+    font-family: "Georama Medium", sans-serif;
 }
 
 .lane .athlete,

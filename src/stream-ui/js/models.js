@@ -32,7 +32,7 @@ class Start {
 
     getMostRecentResult() {
         if (this.results.length < 1) return;
-        this.results.sort((a,b) => {return a.added_at.getTime() - b.added_at.getTime()});
+        this.results.sort((a,b) => {return b.added_at.getTime() - a.added_at.getTime()});
         return this.results[0];
     }
 }

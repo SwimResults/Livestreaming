@@ -1,8 +1,10 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <title>Results - SwimResults Stream View</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/results.css">
 
     <script src="js/jquery-3.7.1.min.js"></script>
     <script src="js/api.js"></script>
@@ -11,20 +13,15 @@
 
     <script>
 
-        const urlParams = new URLSearchParams(window.location.search);
-        let refreshTime = urlParams.get('refresh_time');
-        let meeting = urlParams.get('meeting');
-        const skipConfig = urlParams.get('skip_config');
-        let firstLane = urlParams.get('first_lane');
-        let numOfLanes = urlParams.get('lanes');
 
-        if (!refreshTime) refreshTime = 1000;
-        if (!meeting) meeting = "IESC22";
-        if (!firstLane) firstLane = 1;
-        if (!numOfLanes) numOfLanes = 4;
+        const settings = Helper.getSettings();
+        const refreshTime = settings.refreshTime;
+        const skipConfig = settings.skipConfig;
+        const firstLane = settings.firstLane;
+        const numOfLanes = settings.numOfLanes;
 
 
-        const MEETING = meeting;
+        const MEETING = settings.meeting;
         const vc = "laneVisible"
         const hc = "laneHiding"
 
@@ -49,11 +46,6 @@
             }, setupTime);
         }
 
-        function receiveEvent(data) {
-            console.log(data);
-            $('#test').html(data.style.aliases[0]);
-        }
-
         function receiveStarts(data) {
             console.log(data);
             if (data.length > 0) {
@@ -65,8 +57,6 @@
                     starts = new Map();
                     console.log("new heat event: " + heat.event + "; heat: " + heat.number);
                 }
-
-                Api.getEventByMeetingAndNumber(MEETING, data[0].event, receiveEvent);
 
                 for (const start of data) {
                     const startImpl = new Start(start);
@@ -142,7 +132,7 @@
         </p>
     </div>
 
-    <div id="startContainer">
+    <div id="startContainer" class="results">
 
         <div class="lane" id="lane0">
             <span class="number" id="lane0_number">1</span>

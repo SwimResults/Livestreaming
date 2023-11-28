@@ -1,0 +1,17 @@
+.lane {
+    display: none;
+}
+
+.lane.shown {
+    display: block;
+}
+
+.summary {
+    transition: 0.4s;
+    width: 400px;
+    margin-left: -400px;
+}
+
+.summary.visible {
+    margin-left: 0;
+}

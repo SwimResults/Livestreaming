@@ -62,7 +62,7 @@ body.background {
 .lane {
     width: var(--lane-width);
     color: #e4e4ff;
-    margin: 4px 0;
+    margin: 10px 0;
     white-space: nowrap;
     font-size: 0;
     height: 34px;
@@ -71,7 +71,7 @@ body.background {
 .lane span {
     padding: 4px;
     display: inline-block;
-    border-right: 0px solid var(--contrast-color);
+    border-right: 0 solid var(--contrast-color);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

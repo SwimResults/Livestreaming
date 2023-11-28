@@ -57,7 +57,7 @@
                 // if it is a new heat, clear all starts;
                 const newHeat = new Heat(data[0].heat);
 
-                if (!heat || heat._id !== newHeat._id) {
+                if (!heat || heat._id !== newHeat._id || heat.start_at.getTime() !== newHeat.start_at.getTime()) {
                     heat = newHeat;
                     starts = new Map();
                     console.log("new heat event: " + heat.event + "; heat: " + heat.number);

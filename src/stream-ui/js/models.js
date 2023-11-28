@@ -42,6 +42,7 @@ class Heat {
     meeting;
     event;
     number;
+    start_at;
     finished_at;
 
     constructor(data) {
@@ -49,6 +50,7 @@ class Heat {
         this.meeting = data.meeting;
         this.event = data.event;
         this.number = data.number;
+        this.start_at = new Date(data.start_at);
         this.finished_at = new Date(data.finished_at);
     }
 }

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Clock - SwimResults Stream View</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/clock.css">
+
+    <script src="js/jquery-3.7.1.min.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/helper.js"></script>
+    <script src="js/models.js"></script>
+
+    <script>
+
+        const settings = Helper.getSettings();
+        const refreshTime = settings.refreshTime;
+        const skipConfig = settings.skipConfig;
+
+
+        const MEETING = settings.meeting;
+
+        let heat = {
+            _id: "0",
+            meeting: MEETING,
+            event: 0,
+            number: 0,
+            finish_at: new Date(0)
+        };
+
+        let interval;
+
+        // it's called milliseconds, but it is actually 1/100 seconds
+        let milliseconds = 0;
+
+        // called onLoad
+        function setup() {
+
+            if (settings.background) $('#body').addClass('background')
+
+            let setupTime = skipConfig ? 3000 : 30000;
+            setTimeout(() => {
+                $('#config').addClass("hidden");
+                setInterval(() => {
+                    tick();
+                }, refreshTime);
+            }, setupTime);
+        }
+
+        function receiveHeat(data) {
+            console.log(data);
+            if (data) {
+
+                // if it is a new heat, clear all starts;
+
+                const newHeat = new Heat(data);
+
+                if (!heat || heat._id !== newHeat._id || heat.start_at.getTime() !== newHeat.start_at.getTime()) {
+                    heat = newHeat;
+                    starts = new Map();
+                    console.log("new heat event: " + heat.event + "; heat: " + heat.number);
+                    interval = setInterval(clockTick, 10);
+                } else if (newHeat.finished_at.getTime() > heat.finished_at.getTime()) {
+                    console.log("heat finished");
+                    heat = newHeat;
+                    milliseconds = 0;
+                    clearInterval(interval);
+                }
+            }
+        }
+
+        function writeTime() {
+            const now = new Date();
+            let timePassed = now - heat.start_at.getTime();
+            const time = new Date(timePassed);
+            const min = time.getMinutes();
+            const sec = time.getSeconds();
+            const mil = Math.round(time.getMilliseconds() / 10);
+            $('#min').html(("0" + min).substr(-2));
+            $('#sec').html(("0" + sec).substr(-2));
+            $('#mil').html(("0" + mil).substr(-2));
+        }
+
+        async function clockTick() {
+            writeTime();
+        }
+
+        function tick() {
+            console.log("tick");
+            Api.getCurrentHeat(MEETING, receiveHeat);
+        }
+
+    </script>
+</head>
+
+<body onload="setup()" id="body">
+
+<div id="config">
+    <h1>Clock View</h1>
+    <p>
+        This text will be hidden after 30 seconds.<br>
+        You can use this time to adjust the positioning in your streaming application.<br>
+        If you want to skip this step, use query param skip_config=1.
+    </p>
+</div>
+
+<div id="clock" class="clock">
+    <span class="min-sec"><span class="min" id="min">00</span>:<span class="sec" id="sec">00</span></span>
+    <span class="mil" id="mil">00</span>
+</div>
+
+</body>
+</html>

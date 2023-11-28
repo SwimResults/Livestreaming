@@ -103,6 +103,7 @@ body.background {
 
 .lane .year {
     width: var(--lane-year-width);
+    text-align: center;
 }
 
 .lane .team {

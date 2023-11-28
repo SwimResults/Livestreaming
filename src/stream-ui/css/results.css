@@ -1,16 +1,15 @@
 .lane {
     transition: 0.4s;
-    margin-left: -400px;
+    margin-left: -800px;
     display: none;
 }
 
 .laneVisible {
-    background-color: orange;
     margin-left: 0;
     display: block;
 }
 
 .laneHiding {
-    margin-left: -400px;
+    margin-left: -800px;
     display: block;
 }

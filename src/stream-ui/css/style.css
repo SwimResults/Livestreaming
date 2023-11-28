@@ -1,12 +1,120 @@
-body {
+:root {
+    --lane-number-width: 32px;
+    --lane-athlete-width: 200px;
+    --lane-year-width: 80px;
+    --lane-team-width: 250px;
+    --lane-time-width: 110px;
+    --lane-width: calc(
+            var(--lane-number-width) +
+            var(--lane-athlete-width) +
+            var(--lane-year-width) +
+            var(--lane-team-width) +
+            var(--lane-time-width) +
+            10 * 4px
+    );
+    --contrast-color: #1c588ccc;
+}
+
+@font-face {
+    font-family: "Georama Bold";
+    src: url("../font/Georama-Bold.ttf");
+}
+
+@font-face {
+    font-family: "Georama Thin";
+    src: url("../font/Georama-Thin.ttf");
+}
+
+@font-face {
+    font-family: "Georama Medium";
+    src: url("../font/Georama-Medium.ttf");
+}
+
+@font-face {
+    font-family: "Georama Light";
+    src: url("../font/Georama-Light.ttf");
+}
+
+@font-face {
+    font-family: "Georama Regular";
+    src: url("../font/Georama-Regular.ttf");
+}
+
+
+body, h1 {
     padding: 0;
     margin: 0;
 }
 
+body {
+    font-family: "Georama Light", sans-serif;
+    font-weight: 500;
+}
+
+body.background {
+    background-image: url("../images/bg1.jpg");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    height: 100vh;
+}
+
 .lane {
-    width: 400px;
+    width: var(--lane-width);
+    color: #e4e4ff;
+    margin: 4px 0;
+    white-space: nowrap;
+    font-size: 0;
+    height: 34px;
+}
+
+.lane span {
+    padding: 4px;
+    display: inline-block;
+    border-right: 0px solid var(--contrast-color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 20px;
+}
+
+.lane .number,
+.lane .time {
+    background-color: var(--contrast-color);
+    font-family: "Georama Regular", sans-serif;
+}
+
+.lane .athlete,
+.lane .year,
+.lane .team {
+    background: linear-gradient(to bottom right, #07C5FFCC, #0095ffcc);
+}
+
+.lane .number {
+    width: var(--lane-number-width);
+    text-align: center;
+    background-color: #af0000cc;
+}
+
+.lane .athlete {
+    width: var(--lane-athlete-width);
+    font-weight: bold;
+}
+
+.lane .year {
+    width: var(--lane-year-width);
+}
+
+.lane .team {
+    width: var(--lane-team-width);
+}
+
+.lane .time {
+    text-align: right;
+    width: var(--lane-time-width);
 }
 
 .hidden {
     opacity: 0;
 }
+

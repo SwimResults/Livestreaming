@@ -32,6 +32,9 @@
 
         // called onLoad
         function setup() {
+
+            if (settings.background) $('#body').addClass('background')
+
             show();
             let setupTime = skipConfig ? 3000 : 30000;
             showLanes();
@@ -50,10 +53,22 @@
 
                 // if it is a new heat, clear all starts;
 
-                if (heat._id !== data[0].heat._id) {
-                    heat = data[0].heat;
+                const newHeat = new Heat(data[0].heat);
+
+                if (heat._id !== newHeat._id) {
+                    heat = newHeat;
                     starts = new Map();
+                    hide();
                     console.log("new heat event: " + heat.event + "; heat: " + heat.number);
+                } else {
+                    if (newHeat.finished_at.getTime() > heat.finished_at.getTime()) {
+                        console.log("heat finished");
+                        show();
+                        heat = newHeat;
+                        setTimeout(() => {
+                            hide();
+                        }, 10000);
+                    }
                 }
 
                 for (const start of data) {
@@ -77,10 +92,26 @@
 
         function show() {
             $('#content').addClass("visible");
+            let j = 0;
+            for (let i = firstLane; i < numOfLanes + firstLane; i++) {
+                j++;
+                setTimeout(() => {
+                    $('#lane' + i).addClass("laneVisible");
+                }, 100 * j);
+            }
         }
 
         function hide() {
-            $('#content').removeClass("visible");
+            let j = 0;
+            for (let i = numOfLanes + firstLane; i >= firstLane; i--) {
+                j++;
+                setTimeout(() => {
+                    $('#lane' + i).removeClass("laneVisible");
+                }, 100 * j);
+            }
+            setTimeout(() => {
+                $('#content').removeClass("visible");
+            }, 100 * (numOfLanes + 2))
         }
 
         function showLanes() {
@@ -97,7 +128,7 @@
     </script>
 </head>
 
-<body onload="setup()">
+<body onload="setup()" id="body">
 
 <div id="config">
     <h1>Summary View</h1>
@@ -110,8 +141,14 @@
 
 <div id="content" class="summary">
 
+    <div class="summary-header">
+        <span class="distance">50m Schmetterling weiblich</span>
+        <br>
+        <span class="heat">Lauf 3/17 - Ergebnisse</span>
+    </div>
+
     <div class="lane" id="lane0">
-        <span class="number" id="lane0_number">1</span>
+        <span class="number" id="lane0_number">0</span>
         <span class="athlete" id="lane0_athlete">Markus Meyer</span>
         <span class="year" id="lane0_year">2004</span>
         <span class="team" id="lane0_team">SV 1650 Breitbergen</span>
@@ -127,7 +164,7 @@
     </div>
 
     <div class="lane" id="lane2">
-        <span class="number" id="lane2_number">1</span>
+        <span class="number" id="lane2_number">2</span>
         <span class="athlete" id="lane2_athlete">Markus Meyer</span>
         <span class="year" id="lane2_year">2004</span>
         <span class="team" id="lane2_team">SV 1650 Breitbergen</span>
@@ -135,7 +172,7 @@
     </div>
 
     <div class="lane" id="lane3">
-        <span class="number" id="lane3_number">1</span>
+        <span class="number" id="lane3_number">3</span>
         <span class="athlete" id="lane3_athlete">Markus Meyer</span>
         <span class="year" id="lane3_year">2004</span>
         <span class="team" id="lane3_team">SV 1650 Breitbergen</span>
@@ -143,7 +180,7 @@
     </div>
 
     <div class="lane" id="lane4">
-        <span class="number" id="lane4_number">1</span>
+        <span class="number" id="lane4_number">4</span>
         <span class="athlete" id="lane4_athlete">Markus Meyer</span>
         <span class="year" id="lane4_year">2004</span>
         <span class="team" id="lane4_team">SV 1650 Breitbergen</span>
@@ -151,7 +188,7 @@
     </div>
 
     <div class="lane" id="lane5">
-        <span class="number" id="lane5_number">1</span>
+        <span class="number" id="lane5_number">5</span>
         <span class="athlete" id="lane5_athlete">Markus Meyer</span>
         <span class="year" id="lane5_year">2004</span>
         <span class="team" id="lane5_team">SV 1650 Breitbergen</span>
@@ -159,7 +196,7 @@
     </div>
 
     <div class="lane" id="lane6">
-        <span class="number" id="lane6_number">1</span>
+        <span class="number" id="lane6_number">6</span>
         <span class="athlete" id="lane6_athlete">Markus Meyer</span>
         <span class="year" id="lane6_year">2004</span>
         <span class="team" id="lane6_team">SV 1650 Breitbergen</span>
@@ -167,7 +204,7 @@
     </div>
 
     <div class="lane" id="lane7">
-        <span class="number" id="lane7_number">1</span>
+        <span class="number" id="lane7_number">7</span>
         <span class="athlete" id="lane7_athlete">Markus Meyer</span>
         <span class="year" id="lane7_year">2004</span>
         <span class="team" id="lane7_team">SV 1650 Breitbergen</span>
@@ -175,7 +212,7 @@
     </div>
 
     <div class="lane" id="lane8">
-        <span class="number" id="lane8_number">1</span>
+        <span class="number" id="lane8_number">8</span>
         <span class="athlete" id="lane8_athlete">Markus Meyer</span>
         <span class="year" id="lane8_year">2004</span>
         <span class="team" id="lane8_team">SV 1650 Breitbergen</span>
@@ -183,11 +220,20 @@
     </div>
 
     <div class="lane" id="lane9">
-        <span class="number" id="lane9_number">1</span>
+        <span class="number" id="lane9_number">9</span>
         <span class="athlete" id="lane9_athlete">Markus Meyer</span>
         <span class="year" id="lane9_year">2004</span>
         <span class="team" id="lane9_team">SV 1650 Breitbergen</span>
         <span class="time" id="lane9_time">03:39,49</span>
+    </div>
+
+
+    <div class="summary-footer summary-footer-left">
+        <span class="website">swimresults.de</span>
+    </div>
+
+    <div class="summary-footer summary-footer-right">
+        <span class="distance">Marienberg 2023</span>
     </div>
 
 </div>

@@ -13,6 +13,7 @@ class Helper {
         let refreshTime = urlParams.get('refresh_time');
         let meeting = urlParams.get('meeting');
         const skipConfig = urlParams.get('skip_config');
+        const background = urlParams.get('background');
         let firstLane = urlParams.get('first_lane');
         let numOfLanes = urlParams.get('lanes');
 
@@ -26,7 +27,8 @@ class Helper {
             meeting: meeting,
             skipConfig: skipConfig,
             firstLane: firstLane,
-            numOfLanes: numOfLanes
+            numOfLanes: numOfLanes,
+            background: background
         };
     }
 }

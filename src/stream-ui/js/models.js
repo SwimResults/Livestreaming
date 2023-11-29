@@ -42,6 +42,7 @@ class Heat {
     meeting;
     event;
     number;
+    max = 0;
     start_at;
     finished_at;
 
@@ -67,5 +68,66 @@ class Result {
         this.lap_meters = data.lap_meters;
 
         this.added_at = new Date(data.added_at);
+    }
+}
+
+class Event {
+    _id;
+    number;
+    distance;
+    relay_distance;
+    meeting;
+    gender;
+    style;
+    final;
+
+    constructor(data) {
+        this._id = data._id;
+        this.number = data.number;
+        this.distance = data.distance;
+        this.relay_distance = data.relay_distance;
+        this.meeting = data.meeting;
+        this.gender = data.gender;
+        this.style = new Style(data.style);
+        this.final = new EventFinal(data.final);
+    }
+
+    getGender() {
+        switch (this.gender) {
+            case "MALE": return "männlich";
+            case "FEMALE": return "weiblich";
+            case "MIXED": return "mixed";
+            case "DIVERS": return "divers";
+            default: return "";
+        }
+    }
+}
+
+class Style {
+    _id;
+    name;
+
+    constructor(data) {
+        this._id = data._id;
+        this.name = data.name;
+    }
+
+    getName() {
+        switch (this.name) {
+            case "BACKSTROKE": return "Rücken";
+            case "BREASTSTROKE": return "Brust";
+            case "BUTTERFLY": return "Schmetterling";
+            case "FREESTYLE": return "Freistil";
+            case "MEDLEY": return "Lagen";
+            default: return "Schwimmen";
+        }
+    }
+}
+
+class EventFinal {
+    is_final;
+
+    constructor(data) {
+        this.is_final = data.is_final;
     }
 }

@@ -33,6 +33,45 @@
     font-size: 42px;
 }
 
+.header-content {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.event {
+    background-color: white;
+    color: black;
+    width: 36px;
+    padding: 12px;
+    text-align: center;
+    border-radius: 12px;
+    margin-right: 20px;
+    font-family: "Georama Bold", sans-serif;
+}
+
+.logo-box {
+    border-left: 2px solid white;
+    float: right;
+}
+
+.logo {
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    margin-left: 20px;
+}
+
+.logo-text {
+    font-size: 14px;
+    display: block;
+    margin-top: 5px;
+}
+
+.header-content img {
+    width: 70px;
+    vertical-align: middle;
+}
+
 .summary.visible {
     opacity: 1;
 }

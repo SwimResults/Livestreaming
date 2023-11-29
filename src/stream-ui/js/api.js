@@ -13,4 +13,8 @@ class Api {
     static getCurrentHeat(meeting, callback) {
         $.get(this.start_service_url + "heat/meet/" + meeting + "/current", callback)
     }
+
+    static getHeatInfo(meeting, event, callback) {
+        $.get(this.start_service_url + "heat/meet/" + meeting + "/event/" + event + "/info", callback)
+    }
 }

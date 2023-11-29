@@ -3,6 +3,8 @@
 <head>
     <title>Summary - SwimResults Stream View</title>
 
+    <meta charset="utf-8">
+
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/summary.css">
 
@@ -30,6 +32,7 @@
             number: 0,
             finish_at: new Date(0)
         };
+        let event;
 
         // called onLoad
         function setup() {
@@ -57,7 +60,7 @@
                 const newHeat = new Heat(data[0].heat);
 
                 if (!heat || heat._id !== newHeat._id || heat.start_at.getTime() !== newHeat.start_at.getTime()) {
-                    heat = newHeat;
+                    setHeat(newHeat);
                     starts = new Map();
                     hide();
                     console.log("new heat event: " + heat.event + "; heat: " + heat.number);
@@ -65,7 +68,7 @@
                     if (newHeat.finished_at.getTime() > heat.finished_at.getTime()) {
                         console.log("heat finished");
                         show();
-                        heat = newHeat;
+                        setHeat(newHeat);
                         setTimeout(() => {
                             hide();
                         }, 10000);
@@ -88,6 +91,55 @@
             $('#lane' + start.lane + '_year').html(start.athlete_year);
             $('#lane' + start.lane + '_team').html(start.athlete_team_name);
             $('#lane' + start.lane + '_time').html(Helper.durationToSwimTimeString(start.getMostRecentResult().time));
+        }
+
+        function setHeat(data) {
+            heat = data;
+            Api.getHeatInfo(MEETING, heat.event, receiveHeatInfo)
+            Api.getEventByMeetingAndNumber(MEETING, heat.event, receiveEvent)
+        }
+
+        function receiveEvent(data) {
+            if (data) {
+                event = new Event(data);
+                constructEvent();
+            }
+        }
+
+        function receiveHeatInfo(data) {
+            if (data) {
+                heat.max = data.amount;
+                constructHeat();
+            }
+        }
+
+        function constructHeat() {
+            let str = "Lauf ";
+            str += heat.number;
+            if (heat.max) {
+                str += "/"
+                str += heat.max;
+            }
+
+            $('#heat').html(str);
+        }
+
+        function constructEvent() {
+            let str = "";
+            // str += event.number;
+            // str += " - ";
+            if (event.relay_distance) {
+                str += event.relay_distance;
+            } else {
+                str += event.distance;
+            }
+            str += "m ";
+            str += event.style.getName();
+            str += " ";
+            str += event.getGender();
+
+            $('#distance').html(str);
+            $('#event').html(event.number);
         }
 
 
@@ -143,9 +195,24 @@
 <div id="content" class="summary">
 
     <div class="summary-header">
-        <span class="distance">50m Schmetterling weiblich</span>
-        <br>
-        <span class="heat">Lauf 3/17 - Ergebnisse</span>
+        <div class="event header-content" id="event">
+            4
+        </div>
+        <div class="header-content">
+            <span class="distance" id="distance">50m Schmetterling weiblich</span>
+            <br>
+            <span class="heat" id="heat">Lauf 3/17 - Ergebnisse</span>
+        </div>
+        <div class="header-content logo-box">
+            <div class="logo">
+                <img src="images/logo_white.png">
+                <span class="logo-text">SwimResults</span>
+            </div>
+            <div class="logo">
+                <img src="images/logo-iesc-btn-white.png">
+                <span class="logo-text">Erzgebirgsschwimmcup</span>
+            </div>
+        </div>
     </div>
 
     <div class="lane" id="lane0">

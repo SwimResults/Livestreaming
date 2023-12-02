@@ -1,6 +1,6 @@
 class Api {
-    static meeting_service_url = "https://api-dev.swimresults.de/meeting/v1/";
-    static start_service_url = "https://api-dev.swimresults.de/start/v1/";
+    static meeting_service_url = "https://api.swimresults.de/meeting/v1/";
+    static start_service_url = "https://api.swimresults.de/start/v1/";
 
     static getEventByMeetingAndNumber(meeting, number, callback) {
         $.get(this.meeting_service_url + "event/meet/" + meeting + "/event/" + number, callback)

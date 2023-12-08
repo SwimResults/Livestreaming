@@ -11,6 +11,8 @@ class Start {
 
     updated_at;
 
+    sort_field = 0;
+
 
     constructor(data) {
         this._id = data._id;
@@ -32,8 +34,15 @@ class Start {
 
     getMostRecentResult() {
         if (this.results.length < 1) return;
-        this.results.sort((a,b) => {return b.added_at.getTime() - a.added_at.getTime()});
-        return this.results[0];
+        const results = this.results.sort((a,b) => {return b.added_at.getTime() - a.added_at.getTime()});
+        return results[0];
+    }
+
+    getFinalResult() {
+        let results = this.results
+            .filter(r => {return r.result_type === "livetiming_result"})
+            .sort((a,b) => {return b.added_at.getTime() - a.added_at.getTime()});
+        return results[0];
     }
 }
 

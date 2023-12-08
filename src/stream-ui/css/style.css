@@ -12,7 +12,7 @@
             var(--lane-time-width) +
             10 * 16px
     );
-    --contrast-color: #1c588ccc;
+    --contrast-color: #1769a9;
 }
 
 @font-face {
@@ -87,13 +87,22 @@ body.background {
 .lane .athlete,
 .lane .year,
 .lane .team {
-    background: linear-gradient(to bottom right, #07C5FFCC, #0095ffcc);
+    /* background: linear-gradient(to bottom right, #07C5FF, #0095ff);*/
+    background-color: #fff;
+    color: var(--contrast-color);
+}
+
+.lane .year {
+    /*background-color: #4EB1FF;*/
 }
 
 .lane .number {
     width: var(--lane-number-width);
     text-align: center;
-    background-color: #af0000cc;
+    /*background-color: #af0000;*/
+    background-color: #54a8f0;
+    color: #fff;
+    font-family: "Georama Bold", sans-serif;
 }
 
 .lane .athlete {

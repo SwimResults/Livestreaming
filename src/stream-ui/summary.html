@@ -75,22 +75,40 @@
                     }
                 }
 
-                for (const start of data) {
-                    const startImpl = new Start(start);
+                data = data
+                    .map(s => new Start(s))
+                    .sort((a,b) => {
+                        const aT = a.getFinalResult();
+                        const bT = b.getFinalResult();
+                        if (!aT) return 1;
+                        if (!bT) return -1;
+                        return aT.time - bT.time
+                    });
 
-                    if (!starts.has(startImpl._id) || starts.get(startImpl._id).updated_at.getTime() !== startImpl.updated_at.getTime()) {
-                        starts.set(startImpl._id, startImpl);
-                        constructStart(startImpl);
+                let rank = 0;
+                let sorting = firstLane;
+                for (const startImpl of data) {
+
+                    startImpl.sort_field = sorting++;
+
+                    if (startImpl.getFinalResult()) {
+                        startImpl.rank = ++rank + ".";
+                    } else {
+                        startImpl.rank = "-";
                     }
+
+                    starts.set(startImpl._id, startImpl);
+                    constructStart(startImpl);
                 }
             }
         }
 
         function constructStart(start) {
-            $('#lane' + start.lane + '_athlete').html(start.athlete_name);
-            $('#lane' + start.lane + '_year').html(start.athlete_year);
-            $('#lane' + start.lane + '_team').html(start.athlete_team_name);
-            $('#lane' + start.lane + '_time').html(Helper.durationToSwimTimeString(start.getMostRecentResult().time));
+            $('#lane' + start.sort_field + '_number').html(start.rank);
+            $('#lane' + start.sort_field + '_athlete').html(start.athlete_name);
+            $('#lane' + start.sort_field + '_year').html(start.athlete_year);
+            $('#lane' + start.sort_field + '_team').html(start.athlete_team_name);
+            $('#lane' + start.sort_field + '_time').html(Helper.durationToSwimTimeString(start.getFinalResult()?.time));
         }
 
         function setHeat(data) {

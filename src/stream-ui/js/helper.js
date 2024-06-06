@@ -10,18 +10,22 @@ class Helper {
 
     static getSettings() {
         const urlParams = new URLSearchParams(window.location.search);
-        let refreshTime = urlParams.get('refresh_time');
+        let refreshTime = Number(urlParams.get('refresh_time'));
         let meeting = urlParams.get('meeting');
         const skipConfig = urlParams.get('skip_config');
         const background = urlParams.get('background');
-        const clockOffset = urlParams.get('clock_offset');
-        let firstLane = urlParams.get('first_lane');
-        let numOfLanes = urlParams.get('lanes');
+        const clockOffset = Number(urlParams.get('clock_offset'));
+        let firstLane = Number(urlParams.get('first_lane'));
+        let numOfLanes = Number(urlParams.get('lanes'));
+        let env = urlParams.get('env');
 
         if (!refreshTime) refreshTime = 1000;
         if (!meeting) meeting = "IESC22";
-        if (!firstLane) firstLane = 1;
+        if (typeof firstLane != "number") firstLane = 1;
         if (!numOfLanes) numOfLanes = 4;
+        if (!env) env = "prod";
+
+        Api.setApiUrls(env);
 
         return {
             refreshTime: refreshTime,
@@ -30,7 +34,8 @@ class Helper {
             firstLane: firstLane,
             numOfLanes: numOfLanes,
             background: background,
-            clockOffset: Number(clockOffset)
+            clockOffset: Number(clockOffset),
+            env: env
         };
     }
 }

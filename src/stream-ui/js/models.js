@@ -128,6 +128,11 @@ class Style {
             case "BUTTERFLY": return "Schmetterling";
             case "FREESTYLE": return "Freistil";
             case "MEDLEY": return "Lagen";
+            case "FINSWIMMING": return "Flossenschwimmen";
+            case "DISTANCE_DIVING": return "Streckentauchen";
+            case "BIFIN": return "BiFin";
+            case "APNOE": return "Apnoe";
+            case "SB": return "SB";
             default: return "Schwimmen";
         }
     }

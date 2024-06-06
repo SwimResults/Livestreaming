@@ -18,6 +18,8 @@ class Helper {
         let firstLane = Number(urlParams.get('first_lane'));
         let numOfLanes = Number(urlParams.get('lanes'));
         let env = urlParams.get('env');
+        let place = urlParams.get('place')
+        let year = urlParams.get('year');
 
         if (!refreshTime) refreshTime = 1000;
         if (!meeting) meeting = "IESC22";
@@ -35,7 +37,9 @@ class Helper {
             numOfLanes: numOfLanes,
             background: background,
             clockOffset: Number(clockOffset),
-            env: env
+            env: env,
+            place: place,
+            year: year
         };
     }
 }

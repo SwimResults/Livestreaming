@@ -37,7 +37,8 @@
         // called onLoad
         function setup() {
 
-            if (settings.background) $('#body').addClass('background')
+            if (settings.background) $('#body').addClass('background');
+            if (settings.place || settings.year) $('#place_year').html(settings.place + " " + settings.year);
 
             show();
             let setupTime = skipConfig ? 3000 : 30000;
@@ -225,10 +226,10 @@
                 <img src="images/logo_white.png">
                 <span class="logo-text">SwimResults</span>
             </div>
-            <div class="logo">
+            <!--div class="logo">
                 <img src="images/logo-iesc-btn-white.png">
                 <span class="logo-text">Erzgebirgsschwimmcup</span>
-            </div>
+            </div-->
         </div>
     </div>
 
@@ -318,7 +319,7 @@
     </div>
 
     <div class="summary-footer summary-footer-right">
-        <span class="distance">Marienberg 2023</span>
+        <span class="website" id="place_year">Live</span>
     </div>
 
 </div>

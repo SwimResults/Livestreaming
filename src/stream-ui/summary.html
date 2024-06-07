@@ -57,8 +57,10 @@
             if (data.length > 0) {
 
                 // if it is a new heat, clear all starts;
-
                 const newHeat = new Heat(data[0].heat);
+
+                // clear starts in ui
+                clearAllStarts();
 
                 if (!heat || heat._id !== newHeat._id || heat.start_at.getTime() !== newHeat.start_at.getTime()) {
                     setHeat(newHeat);
@@ -110,6 +112,20 @@
             $('#lane' + start.sort_field + '_year').html(start.athlete_year);
             $('#lane' + start.sort_field + '_team').html(start.athlete_team_name);
             $('#lane' + start.sort_field + '_time').html(Helper.durationToSwimTimeString(start.getFinalResult()?.time));
+        }
+
+        function clearStart(lane) {
+            $('#lane' + lane + '_number').html("-");
+            $('#lane' + lane + '_athlete').html("-");
+            $('#lane' + lane + '_year').html("-");
+            $('#lane' + lane + '_team').html("-");
+            $('#lane' + lane + '_time').html("-");
+        }
+
+        function clearAllStarts() {
+            for (let i = 0; i <= 9; i++) {
+                clearStart(i);
+            }
         }
 
         function setHeat(data) {

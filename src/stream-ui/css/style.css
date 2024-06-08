@@ -76,6 +76,7 @@ body.background {
     overflow: hidden;
     text-overflow: ellipsis;
     font-size: 30px;
+    line-height: 50px;
 }
 
 .lane .number,

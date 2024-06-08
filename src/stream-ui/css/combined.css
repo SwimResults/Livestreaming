@@ -1,0 +1,25 @@
+body {
+    padding: 0;
+}
+
+.sub-view {
+    display: block;
+    width: 1470px;
+    height: 956px;
+    position: absolute;
+    margin: 0;
+    border: none;
+}
+
+.view-box {
+    border: 1px solid black;
+}
+
+.clock-view {
+    left: 1250px;
+    top: 800px;
+}
+
+.results-view {
+    top: 700px;
+}

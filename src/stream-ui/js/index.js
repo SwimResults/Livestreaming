@@ -1,6 +1,7 @@
 const resultsLink = "https://swimresults.github.io/Livestreaming/src/stream-ui/results.html";
 const summaryLink = "https://swimresults.github.io/Livestreaming/src/stream-ui/summary.html";
 const clockLink = "https://swimresults.github.io/Livestreaming/src/stream-ui/clock.html";
+const displayLink = "https://swimresults.github.io/Livestreaming/src/stream-ui/display.html";
 
 let count = 0;
 
@@ -55,6 +56,7 @@ $("document").ready(function() {
         $("#resultsLink").html(resultsLink + query);
         $("#summaryLink").html(summaryLink + query);
         $("#clockLink").html(clockLink + query);
+        $("#displayLink").html(displayLink + query);
 
         $(".generation-number").html(count)
 

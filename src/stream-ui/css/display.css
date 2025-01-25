@@ -15,8 +15,8 @@
 :root {
     --lane-number-width: 46px;
     --lane-year-width: 80px;
-    --lane-team-width: 410px;
-    --lane-time-width: 130px;
+    --lane-team-width: 350px;
+    --lane-time-width: 190px;
     --lane-athlete-width: calc(100% - var(--lane-number-width) - var(--lane-year-width) - var(--lane-team-width) - var(--lane-time-width));
 
     --lane-width: calc(100% - 160px);
@@ -136,6 +136,7 @@ a
 .lane .time {
     text-align: right;
     width: var(--lane-time-width);
+    font-size: 40px;
 }
 
 .hidden {

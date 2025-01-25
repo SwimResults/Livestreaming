@@ -1,0 +1,159 @@
+.header {
+    /*background: #1769a9;*/
+    /*color: white;*/
+    padding: 4px 16px;
+    border-right: 0 solid var(--contrast-color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 30px;
+    line-height: 50px;
+    width: calc(100% - 32px);
+    font-weight: bold;
+    color: #2cff2c;
+}
+:root {
+    --lane-number-width: 46px;
+    --lane-year-width: 80px;
+    --lane-team-width: 410px;
+    --lane-time-width: 130px;
+    --lane-athlete-width: calc(100% - var(--lane-number-width) - var(--lane-year-width) - var(--lane-team-width) - var(--lane-time-width));
+
+    --lane-width: calc(100% - 160px);
+    --contrast-color: #1769a9;
+}
+
+@font-face {
+    font-family: "Georama Bold";
+    src: url("../font/Georama-Bold.ttf");
+}
+
+@font-face {
+    font-family: "Georama Thin";
+    src: url("../font/Georama-Thin.ttf");
+}
+
+@font-face {
+    font-family: "Georama Medium";
+    src: url("../font/Georama-Medium.ttf");
+}
+
+@font-face {
+    font-family: "Georama Light";
+    src: url("../font/Georama-Light.ttf");
+}
+
+@font-face {
+    font-family: "Georama Regular";
+    src: url("../font/Georama-Regular.ttf");
+}
+
+
+body {
+    background-color: black;
+}
+
+h1 {
+    padding: 40px;
+    margin: 0;
+}
+
+body {
+    font-family: "Georama Regular", sans-serif;
+    font-weight: 500;
+}
+
+body.background {
+    background-image: url("../images/bg1.jpg");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    height: 100vh;
+}
+
+.lane {
+    width: var(--lane-width);
+    /*color: #e4e4ff;*/
+    color: yellow;
+    margin: 6px 0;
+    white-space: nowrap;
+    font-size: 0;
+    height: 58px;
+}
+
+.lane span {
+    padding: 4px 16px;
+    display: inline-block;
+    border-right: 0 solid var(--contrast-color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 30px;
+    line-height: 50px;
+}
+
+.lane .number,
+.lane .time {
+    /*background-color: var(--contrast-color);*/
+    font-family: "Georama Medium", sans-serif;
+}
+
+.lane .athlete,
+.lane .year,
+.lane .team {
+    /* background: linear-gradient(to bottom right, #07C5FF, #0095ff);*/
+    /*background-color: #fff;*/
+    /*color: var(--contrast-color);*/
+}
+a
+.lane .year {
+    /*background-color: #4EB1FF;*/
+}
+
+.lane .number {
+    width: var(--lane-number-width);
+    text-align: center;
+    /*background-color: #af0000;*/
+    /*background-color: #54a8f0;*/
+    /*color: #fff;*/
+    font-family: "Georama Bold", sans-serif;
+}
+
+.lane .athlete {
+    width: var(--lane-athlete-width);
+    font-weight: bold;
+}
+
+.lane .year {
+    width: var(--lane-year-width);
+    text-align: center;
+}
+
+.lane .team {
+    width: var(--lane-team-width);
+}
+
+.lane .time {
+    text-align: right;
+    width: var(--lane-time-width);
+}
+
+.hidden {
+    opacity: 0;
+}
+
+.lane {
+    transition: 0.4s;
+    margin-left: calc(var(--lane-width) * -1);
+    display: none;
+}
+
+.laneVisible {
+    margin-left: 0;
+    display: block;
+}
+
+.laneHiding {
+    margin-left: calc(var(--lane-width) * -1);
+    display: block;
+}

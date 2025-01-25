@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Results - SwimResults Stream View</title>
+
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="css/display.css">
+
+    <script src="js/jquery-3.7.1.min.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/helper.js"></script>
+    <script src="js/models.js"></script>
+
+    <script>
+
+
+        const settings = Helper.getSettings();
+        const refreshTime = settings.refreshTime;
+        const skipConfig = settings.skipConfig;
+        const firstLane = settings.firstLane;
+        const numOfLanes = settings.numOfLanes;
+
+
+        const MEETING = settings.meeting;
+        const vc = "laneVisible"
+        const hc = "laneHiding"
+
+        let starts = new Map();
+        let heat = {
+            _id: "0",
+            meeting: MEETING,
+            event: 0,
+            number: 0,
+            finish_at: new Date(0)
+        };
+
+        // called onLoad
+        function setup() {
+
+            if (settings.background) $('#body').addClass('background')
+
+            showAll();
+            let setupTime = skipConfig ? 3000 : 30000;
+            setTimeout(() => {
+                $('#config').addClass("hidden");
+                setInterval(() => {
+                    tick();
+                }, refreshTime);
+            }, setupTime);
+        }
+
+        function receiveStarts(data) {
+            console.log(data);
+            if (data.length > 0) {
+
+                // if it is a new heat, clear all starts;
+                const newHeat = new Heat(data[0].heat);
+
+                if (!heat || heat._id !== newHeat._id || heat.start_at.getTime() !== newHeat.start_at.getTime()) {
+                    heat = newHeat;
+                    starts = new Map();
+                    console.log("new heat event: " + heat.event + "; heat: " + heat.number);
+
+                    $('#event').html("WK " + heat.event + " - 00m Schwimmen alle");
+                    $('#heat').html("Lauf " + heat.number);
+
+                    setHeat(newHeat);
+                    starts = new Map();
+                    hide();
+                    console.log("new heat event: " + heat.event + "; heat: " + heat.number);
+                } else {
+                    if (newHeat.finished_at.getTime() > heat.finished_at.getTime()) {
+                        console.log("heat finished");
+                        show();
+                        setHeat(newHeat);
+                        setTimeout(() => {
+                            hide();
+                        }, 10000);
+                    }
+                }
+
+                for (const start of data) {
+                    const startImpl = new Start(start);
+
+                    if (!starts.has(startImpl._id) || starts.get(startImpl._id).updated_at.getTime() !== startImpl.updated_at.getTime()) {
+                        starts.set(startImpl._id, startImpl);
+                        constructStart(startImpl);
+                    }
+                }
+            }
+        }
+
+
+        function setHeat(data) {
+            heat = data;
+            Api.getHeatInfo(MEETING, heat.event, receiveHeatInfo)
+            Api.getEventByMeetingAndNumber(MEETING, heat.event, receiveEvent)
+        }
+
+        function receiveEvent(data) {
+            if (data) {
+                event = new Event(data);
+                constructEvent();
+            }
+        }
+
+        function receiveHeatInfo(data) {
+            if (data) {
+                heat.max = data.amount;
+                constructHeat();
+            }
+        }
+
+        function constructHeat() {
+            let str = "Lauf ";
+            str += heat.number;
+            if (heat.max) {
+                str += "/"
+                str += heat.max;
+            }
+
+            $('#heat').html(str);
+        }
+
+        function constructEvent() {
+            let str = "";
+            // str += event.number;
+            // str += " - ";
+            if (event.relay_distance) {
+                str += event.relay_distance;
+            } else {
+                str += event.distance;
+            }
+            str += "m ";
+            str += event.style.getName();
+            str += " ";
+            str += event.getGender();
+
+            $('#distance').html(str);
+            $('#event').html(event.number);
+        }
+
+
+        function constructStart(start) {
+            $('#lane' + start.lane + '_athlete').html(start.athlete_name);
+            $('#lane' + start.lane + '_year').html(start.athlete_year);
+            $('#lane' + start.lane + '_team').html(start.athlete_team_name);
+            $('#lane' + start.lane + '_time').html(Helper.durationToSwimTimeString(start.getMostRecentResult().time));
+
+            //showLane(start.lane);
+
+            setTimeout(() => {
+                //hideLane(start.lane);
+            }, 10000)
+        }
+
+
+        function showLane(n) {
+            const lane = $('#lane' + n)
+            lane.addClass(hc);
+            setTimeout(() => {
+                lane.addClass(vc);
+                lane.removeClass(hc);
+            }, 500)
+        }
+
+        function hideLane(n) {
+            const lane = $('#lane' + n)
+            lane.removeClass(vc);
+            lane.addClass(hc);
+            setTimeout(() => {
+                lane.removeClass(hc);
+            }, 500)
+        }
+
+        function showAll() {
+            for (let i = firstLane; i < numOfLanes + firstLane; i++) {
+                showLane(i);
+            }
+        }
+
+        function hideAll() {
+            for (let i = firstLane; i < numOfLanes + firstLane; i++) {
+                hideLane(i);
+            }
+        }
+
+        function tick() {
+            console.log("tick");
+            Api.getCurrentStarts(MEETING, receiveStarts);
+        }
+
+    </script>
+</head>
+
+<body onload="setup()" id="body">
+
+    <div id="header" class="header">
+        <div class="event-name">WK <span id="event">00</span> - <span class="distance" id="distance">00m Schmetterling weiblich</span></div>
+        <div class="heat-name" id="heat">Lauf 0/0</div>
+    </div>
+
+    <div id="startContainer" class="results">
+
+        <div class="lane" id="lane0">
+            <span class="number" id="lane0_number">0</span>
+            <span class="athlete" id="lane0_athlete">Markus Meyer</span>
+            <span class="year" id="lane0_year">2004</span>
+            <span class="team" id="lane0_team">SV 1650 Breitbergen</span>
+            <span class="time" id="lane0_time">03:39,49</span>
+        </div>
+
+        <div class="lane" id="lane1">
+            <span class="number" id="lane1_number">1</span>
+            <span class="athlete" id="lane1_athlete">Markus Meyer</span>
+            <span class="year" id="lane1_year">2004</span>
+            <span class="team" id="lane1_team">SV 1650 Breitbergen</span>
+            <span class="time" id="lane1_time">03:39,49</span>
+        </div>
+
+        <div class="lane" id="lane2">
+            <span class="number" id="lane2_number">2</span>
+            <span class="athlete" id="lane2_athlete">Markus Meyer</span>
+            <span class="year" id="lane2_year">2004</span>
+            <span class="team" id="lane2_team">SV 1650 Breitbergen</span>
+            <span class="time" id="lane2_time">03:39,49</span>
+        </div>
+
+        <div class="lane" id="lane3">
+            <span class="number" id="lane3_number">3</span>
+            <span class="athlete" id="lane3_athlete">Markus Meyer</span>
+            <span class="year" id="lane3_year">2004</span>
+            <span class="team" id="lane3_team">SV 1650 Breitbergen</span>
+            <span class="time" id="lane3_time">03:39,49</span>
+        </div>
+
+        <div class="lane" id="lane4">
+            <span class="number" id="lane4_number">4</span>
+            <span class="athlete" id="lane4_athlete">Markus Meyer</span>
+            <span class="year" id="lane4_year">2004</span>
+            <span class="team" id="lane4_team">SV 1650 Breitbergen</span>
+            <span class="time" id="lane4_time">03:39,49</span>
+        </div>
+
+        <div class="lane" id="lane5">
+            <span class="number" id="lane5_number">5</span>
+            <span class="athlete" id="lane5_athlete">Markus Meyer</span>
+            <span class="year" id="lane5_year">2004</span>
+            <span class="team" id="lane5_team">SV 1650 Breitbergen</span>
+            <span class="time" id="lane5_time">03:39,49</span>
+        </div>
+
+        <div class="lane" id="lane6">
+            <span class="number" id="lane6_number">6</span>
+            <span class="athlete" id="lane6_athlete">Markus Meyer</span>
+            <span class="year" id="lane6_year">2004</span>
+            <span class="team" id="lane6_team">SV 1650 Breitbergen</span>
+            <span class="time" id="lane6_time">03:39,49</span>
+        </div>
+
+        <div class="lane" id="lane7">
+            <span class="number" id="lane7_number">7</span>
+            <span class="athlete" id="lane7_athlete">Markus Meyer</span>
+            <span class="year" id="lane7_year">2004</span>
+            <span class="team" id="lane7_team">SV 1650 Breitbergen</span>
+            <span class="time" id="lane7_time">03:39,49</span>
+        </div>
+
+        <div class="lane" id="lane8">
+            <span class="number" id="lane8_number">8</span>
+            <span class="athlete" id="lane8_athlete">Markus Meyer</span>
+            <span class="year" id="lane8_year">2004</span>
+            <span class="team" id="lane8_team">SV 1650 Breitbergen</span>
+            <span class="time" id="lane8_time">03:39,49</span>
+        </div>
+
+        <div class="lane" id="lane9">
+            <span class="number" id="lane9_number">9</span>
+            <span class="athlete" id="lane9_athlete">Markus Meyer</span>
+            <span class="year" id="lane9_year">2004</span>
+            <span class="team" id="lane9_team">SV 1650 Breitbergen</span>
+            <span class="time" id="lane9_time">03:39,49</span>
+        </div>
+
+    </div>
+
+
+    <div id="config">
+        <h1>Results UI</h1>
+        <p>
+            This text and the shown lanes will be hidden after 30 seconds.<br>
+            You can use this time to adjust the positioning in your streaming application.<br>
+            If you want to skip this step, use query param skip_config=1.
+        </p>
+    </div>
+</body>
+</html>

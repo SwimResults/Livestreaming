@@ -75,7 +75,7 @@ body.background {
     width: var(--lane-width);
     /*color: #e4e4ff;*/
     color: yellow;
-    margin: 6px 0;
+    /*margin: 6px 0;*/
     white-space: nowrap;
     font-size: 0;
     height: 58px;

@@ -15,11 +15,12 @@
 :root {
     --lane-number-width: 46px;
     --lane-year-width: 80px;
-    --lane-team-width: 350px;
+    --lane-team-width: 210px;
+    --lane-meter-width: 80px;
     --lane-time-width: 190px;
     --lane-athlete-width: calc(100% - var(--lane-number-width) - var(--lane-year-width) - var(--lane-team-width) - var(--lane-time-width));
 
-    --lane-width: calc(100% - 160px);
+    --lane-width: calc(100% - 220px);
     --contrast-color: #1769a9;
 }
 
@@ -82,7 +83,7 @@ body.background {
 }
 
 .lane span {
-    padding: 4px 16px;
+    padding: 4px 12px;
     display: inline-block;
     border-right: 0 solid var(--contrast-color);
     white-space: nowrap;
@@ -131,6 +132,11 @@ a
 
 .lane .team {
     width: var(--lane-team-width);
+}
+
+.lane .meter {
+    width: var(--lane-meter-width);
+    text-align: right;
 }
 
 .lane .time {

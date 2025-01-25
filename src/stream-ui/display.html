@@ -62,6 +62,8 @@
                     starts = new Map();
                     console.log("new heat event: " + heat.event + "; heat: " + heat.number);
 
+                    clearAllStarts();
+
                     $('#event').html("WK " + heat.event + " - 00m Schwimmen alle");
                     $('#heat').html("Lauf " + heat.number);
 
@@ -91,6 +93,20 @@
             }
         }
 
+
+        function clearStart(lane) {
+            $('#lane' + lane + '_number').html("-");
+            $('#lane' + lane + '_athlete').html("-");
+            $('#lane' + lane + '_year').html("-");
+            $('#lane' + lane + '_team').html("-");
+            $('#lane' + lane + '_time').html("-");
+        }
+
+        function clearAllStarts() {
+            for (let i = 0; i <= 9; i++) {
+                clearStart(i);
+            }
+        }
 
         function setHeat(data) {
             heat = data;
@@ -143,9 +159,11 @@
 
 
         function constructStart(start) {
+            $('#lane' + start.lane + '_number').html(start.lane);
             $('#lane' + start.lane + '_athlete').html(start.athlete_name);
             $('#lane' + start.lane + '_year').html(start.athlete_year);
             $('#lane' + start.lane + '_team').html(start.athlete_team_name);
+            $('#lane' + start.lane + '_meter').html(start.getMostRecentResult().lap_meters);
             $('#lane' + start.lane + '_time').html(Helper.durationToSwimTimeString(start.getMostRecentResult().time));
 
             //showLane(start.lane);
@@ -208,6 +226,7 @@
             <span class="athlete" id="lane0_athlete"></span>
             <span class="year" id="lane0_year"></span>
             <span class="team" id="lane0_team"></span>
+            <span class="meter" id="lane0_meter"></span>
             <span class="time" id="lane0_time">--:--,--</span>
         </div>
 
@@ -216,6 +235,7 @@
             <span class="athlete" id="lane1_athlete"></span>
             <span class="year" id="lane1_year"></span>
             <span class="team" id="lane1_team"></span>
+            <span class="meter" id="lane1_meter"></span>
             <span class="time" id="lane1_time"></span>
         </div>
 
@@ -224,6 +244,7 @@
             <span class="athlete" id="lane2_athlete"></span>
             <span class="year" id="lane2_year"></span>
             <span class="team" id="lane2_team"></span>
+            <span class="meter" id="lane2_meter"></span>
             <span class="time" id="lane2_time"></span>
         </div>
 
@@ -232,6 +253,7 @@
             <span class="athlete" id="lane3_athlete"></span>
             <span class="year" id="lane3_year"></span>
             <span class="team" id="lane3_team"></span>
+            <span class="meter" id="lane3_meter"></span>
             <span class="time" id="lane3_time"></span>
         </div>
 
@@ -240,6 +262,7 @@
             <span class="athlete" id="lane4_athlete"></span>
             <span class="year" id="lane4_year"></span>
             <span class="team" id="lane4_team"></span>
+            <span class="meter" id="lane4_meter"></span>
             <span class="time" id="lane4_time"></span>
         </div>
 
@@ -248,6 +271,7 @@
             <span class="athlete" id="lane5_athlete"></span>
             <span class="year" id="lane5_year"></span>
             <span class="team" id="lane5_team"></span>
+            <span class="meter" id="lane5_meter"></span>
             <span class="time" id="lane5_time"></span>
         </div>
 
@@ -256,6 +280,7 @@
             <span class="athlete" id="lane6_athlete"></span>
             <span class="year" id="lane6_year"></span>
             <span class="team" id="lane6_team"></span>
+            <span class="meter" id="lane6_meter"></span>
             <span class="time" id="lane6_time"></span>
         </div>
 
@@ -264,6 +289,7 @@
             <span class="athlete" id="lane7_athlete"></span>
             <span class="year" id="lane7_year"></span>
             <span class="team" id="lane7_team"></span>
+            <span class="meter" id="lane7_meter"></span>
             <span class="time" id="lane7_time"></span>
         </div>
 
@@ -272,6 +298,7 @@
             <span class="athlete" id="lane8_athlete"></span>
             <span class="year" id="lane8_year"></span>
             <span class="team" id="lane8_team"></span>
+            <span class="meter" id="lane8_meter"></span>
             <span class="time" id="lane8_time"></span>
         </div>
 
@@ -280,6 +307,7 @@
             <span class="athlete" id="lane9_athlete"></span>
             <span class="year" id="lane9_year"></span>
             <span class="team" id="lane9_team"></span>
+            <span class="meter" id="lane9_meter"></span>
             <span class="time" id="lane9_time"></span>
         </div>
 

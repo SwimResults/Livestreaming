@@ -6,6 +6,7 @@
     <meta charset="utf-8">
 
     <link rel="stylesheet" href="css/display.css">
+    <link rel="stylesheet" href="css/clock.css">
 
     <script src="js/jquery-3.7.1.min.js"></script>
     <script src="js/api.js"></script>
@@ -62,6 +63,8 @@
                     starts = new Map();
                     console.log("new heat event: " + heat.event + "; heat: " + heat.number);
 
+                    interval = setInterval(clockTick, 10);
+
                     clearAllStarts();
 
                     $('#event').html("WK " + heat.event + " - 00m Schwimmen alle");
@@ -74,6 +77,8 @@
                 } else {
                     if (newHeat.finished_at.getTime() > heat.finished_at.getTime()) {
                         console.log("heat finished");
+                        milliseconds = 0;
+                        clearInterval(interval);
                         show();
                         setHeat(newHeat);
                         setTimeout(() => {
@@ -99,6 +104,7 @@
             $('#lane' + lane + '_athlete').html("-");
             $('#lane' + lane + '_year').html("-");
             $('#lane' + lane + '_team').html("-");
+            $('#lane' + lane + '_meter').html("-");
             $('#lane' + lane + '_time').html("-");
         }
 
@@ -167,18 +173,18 @@
             let time = $('#lane' + start.lane + '_time');
             if (start.getMostRecentResult().result_type === "registration") {
                 $('#lane' + start.lane + '_meter').html("MZ");
-                //time.classList.add("registration");
+                time.addClass("registration");
             } else {
                 $('#lane' + start.lane + '_meter').html(start.getMostRecentResult().lap_meters);
-                //time.classList.remove("registration");
+                time.removeClass("registration");
             }
             time.html(Helper.durationToSwimTimeString(start.getMostRecentResult().time));
 
             //showLane(start.lane);
 
-            setTimeout(() => {
+            //setTimeout(() => {
                 //hideLane(start.lane);
-            }, 10000)
+            //}, 10000)
         }
 
 
@@ -212,6 +218,22 @@
             }
         }
 
+        function writeTime() {
+            const now = new Date();
+            let timePassed = now - heat.start_at.getTime() - (settings.clockOffset * 1000);
+            const time = new Date(timePassed);
+            const min = time.getMinutes();
+            const sec = time.getSeconds();
+            const mil = Math.round(time.getMilliseconds() / 10);
+            $('#min').html(("0" + min).substr(-2));
+            $('#sec').html(("0" + sec).substr(-2));
+            $('#mil').html(("0" + mil).substr(-2));
+        }
+
+        async function clockTick() {
+            writeTime();
+        }
+
         function tick() {
             console.log("tick");
             Api.getCurrentStarts(MEETING, receiveStarts);
@@ -221,6 +243,12 @@
 </head>
 
 <body onload="setup()" id="body">
+
+
+    <div id="clock" class="clock">
+        <span class="min-sec"><span class="min" id="min">00</span>:<span class="sec" id="sec">00</span></span>
+        <span class="mil" id="mil">00</span>
+    </div>
 
     <div id="header" class="header">
         <div class="event-name">WK <span id="event">00</span> - <span class="distance" id="distance">00m Schmetterling weiblich</span></div>

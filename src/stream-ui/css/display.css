@@ -1,17 +1,3 @@
-.header {
-    /*background: #1769a9;*/
-    /*color: white;*/
-    padding: 4px 16px;
-    border-right: 0 solid var(--contrast-color);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-size: 30px;
-    line-height: 50px;
-    width: calc(100% - 32px);
-    font-weight: bold;
-    color: var(--header-color);
-}
 :root {
     --lane-number-width: 46px;
     --lane-year-width: 80px;
@@ -26,7 +12,27 @@
     /* SCC */
     --lane-color: white;
     --header-color: #4ea8ff;
-    --registration-time-color: #aaa;
+    --registration-time-color: #888;
+}
+
+.clock {
+    position: absolute;
+    right: 0;
+}
+
+.header {
+    /*background: #1769a9;*/
+    /*color: white;*/
+    padding: 4px 16px;
+    border-right: 0 solid var(--contrast-color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 30px;
+    line-height: 50px;
+    width: calc(100% - 32px);
+    font-weight: bold;
+    color: var(--header-color);
 }
 
 @font-face {

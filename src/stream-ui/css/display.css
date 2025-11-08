@@ -10,7 +10,7 @@
     line-height: 50px;
     width: calc(100% - 32px);
     font-weight: bold;
-    color: #2cff2c;
+    color: var(--header-color);
 }
 :root {
     --lane-number-width: 46px;
@@ -22,6 +22,11 @@
 
     --lane-width: calc(100% - 220px);
     --contrast-color: #1769a9;
+
+    /* SCC */
+    --lane-color: white;
+    --header-color: #4ea8ff;
+    --registration-time-color: #aaa;
 }
 
 @font-face {
@@ -75,7 +80,7 @@ body.background {
 .lane {
     width: var(--lane-width);
     /*color: #e4e4ff;*/
-    color: yellow;
+    color: var(--lane-color);
     /*margin: 6px 0;*/
     white-space: nowrap;
     font-size: 0;
@@ -143,6 +148,10 @@ a
     text-align: right;
     width: var(--lane-time-width);
     font-size: 40px;
+}
+
+.lane .time.registration {
+    color: var(--registration-time-color)
 }
 
 .hidden {

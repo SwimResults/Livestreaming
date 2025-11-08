@@ -165,8 +165,10 @@
             $('#lane' + start.lane + '_team').html(start.athlete_team_name);
             if (start.getMostRecentResult().result_type === "registration") {
                 $('#lane' + start.lane + '_meter').html("MZ");
+                $('#lane' + start.lane + '_time').classList.add("registration");
             } else {
                 $('#lane' + start.lane + '_meter').html(start.getMostRecentResult().lap_meters);
+                $('#lane' + start.lane + '_time').classList.remove("registration");
             }
             $('#lane' + start.lane + '_time').html(Helper.durationToSwimTimeString(start.getMostRecentResult().time));
 

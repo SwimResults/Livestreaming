@@ -163,14 +163,16 @@
             $('#lane' + start.lane + '_athlete').html(start.athlete_name);
             $('#lane' + start.lane + '_year').html(start.athlete_year);
             $('#lane' + start.lane + '_team').html(start.athlete_team_name);
+
+            let time = $('#lane' + start.lane + '_time');
             if (start.getMostRecentResult().result_type === "registration") {
                 $('#lane' + start.lane + '_meter').html("MZ");
-                $('#lane' + start.lane + '_time').classList.add("registration");
+                //time.classList.add("registration");
             } else {
                 $('#lane' + start.lane + '_meter').html(start.getMostRecentResult().lap_meters);
-                $('#lane' + start.lane + '_time').classList.remove("registration");
+                //time.classList.remove("registration");
             }
-            $('#lane' + start.lane + '_time').html(Helper.durationToSwimTimeString(start.getMostRecentResult().time));
+            time.html(Helper.durationToSwimTimeString(start.getMostRecentResult().time));
 
             //showLane(start.lane);
 
